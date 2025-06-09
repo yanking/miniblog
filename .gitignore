@@ -14,3 +14,4 @@ go.work.sum
 
 # idea 文件
 .idea
+.vscode
