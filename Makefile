@@ -6,6 +6,8 @@ COMMON_SELF_DIR := $(dir $(lastword $(MAKEFILE_LIST)))
 PROJ_ROOT_DIR := $(abspath $(shell cd $(COMMON_SELF_DIR)/ && pwd -P))
 # 构建产物、临时文件存放目录
 OUTPUT_DIR := $(PROJ_ROOT_DIR)/_output
+# Protobuf 文件存放路径
+APIROOT=$(PROJ_ROOT_DIR)/pkg/api
 
 # ==============================================================================
 # 定义版本相关变量
@@ -57,5 +59,16 @@ tidy: # 自动添加/移除依赖包.
 clean: # 清理构建产物、临时文件等.
 	@-rm -vrf $(OUTPUT_DIR)
 
+.PHONY: protoc
+protoc: # 编译 protobuf 文件.
+	@echo "===========> Generate protobuf files"
+	@protoc                                              \
+		--proto_path=$(APIROOT)                          \
+		--proto_path=$(PROJ_ROOT_DIR)/third_party        \
+		--go_out=paths=source_relative:$(APIROOT)        \
+		--go-grpc_out=paths=source_relative:$(APIROOT)   \
+		$(shell find $(APIROOT) -name *.proto)
+
 tools:
 	@go install github.com/air-verse/air@latest
+	@go install github.com/fullstorydev/grpcurl/cmd/grpcurl@latest
