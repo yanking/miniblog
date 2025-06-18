@@ -31,7 +31,7 @@ tls:
 # HTTP 服务器相关配置
 http:
   # HTTP 服务器监听地址
-  addr: :5555
+  addr: :7777
 
 # GRPC 服务器相关配置
 grpc:

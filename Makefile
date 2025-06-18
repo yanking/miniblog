@@ -62,13 +62,23 @@ clean: # 清理构建产物、临时文件等.
 .PHONY: protoc
 protoc: # 编译 protobuf 文件.
 	@echo "===========> Generate protobuf files"
+	@mkdir -p $(PROJ_ROOT_DIR)/api/openapi
+	@# --grpc-gateway_out 用来在 pkg/api/apiserver/v1/ 目录下生成反向服务器代码 apiserver.pb.gw.go
+	@# --openapiv2_out 用来在 api/openapi/apiserver/v1/ 目录下生成 Swagger V2 接口文档
 	@protoc                                              \
 		--proto_path=$(APIROOT)                          \
 		--proto_path=$(PROJ_ROOT_DIR)/third_party        \
 		--go_out=paths=source_relative:$(APIROOT)        \
 		--go-grpc_out=paths=source_relative:$(APIROOT)   \
+		--grpc-gateway_out=allow_delete_body=true,paths=source_relative:$(APIROOT) \
+		--openapiv2_out=$(PROJ_ROOT_DIR)/api/openapi \
+		--openapiv2_opt=allow_delete_body=true,logtostderr=true \
 		$(shell find $(APIROOT) -name *.proto)
 
 tools:
+	@go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
+	@go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
+	@go install github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-grpc-gateway@latest
+	@go install github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-openapiv2@latest
 	@go install github.com/air-verse/air@latest
 	@go install github.com/fullstorydev/grpcurl/cmd/grpcurl@latest
