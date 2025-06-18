@@ -36,7 +36,7 @@ http:
 # GRPC 服务器相关配置
 grpc:
   # GRPC 服务器监听地址
-  addr: :6666
+  addr: 127.0.0.1:6666
 
 # MySQL 数据库相关配置
 mysql:
