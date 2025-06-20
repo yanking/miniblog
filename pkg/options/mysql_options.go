@@ -8,8 +8,8 @@ import (
 	"gorm.io/gorm"
 	gormlogger "gorm.io/gorm/logger"
 
-	"github.com/onexstack/onexstack/pkg/db"
-	"github.com/onexstack/onexstack/pkg/log"
+	"miniblog/pkg/db"
+	"miniblog/pkg/log"
 )
 
 var _ IOptions = (*MySQLOptions)(nil)
