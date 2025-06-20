@@ -3,7 +3,7 @@ package server
 import (
 	"context"
 	"errors"
-	"miniblog/pkg/log"
+	"miniblog/internal/pkg/log"
 	"miniblog/pkg/options"
 	"net/http"
 )

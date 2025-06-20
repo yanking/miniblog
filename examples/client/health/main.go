@@ -5,11 +5,12 @@ import (
 	"encoding/json"
 	"flag"
 	"fmt"
+	"miniblog/internal/pkg/log"
+	apiv1 "miniblog/pkg/api/apiserver/v1"
+	"time"
+
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
-	apiv1 "miniblog/pkg/api/apiserver/v1"
-	"miniblog/pkg/log"
-	"time"
 )
 
 var (

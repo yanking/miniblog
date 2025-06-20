@@ -1,11 +1,12 @@
 package app
 
 import (
+	"miniblog/cmd/mb-apiserver/app/options"
+	"miniblog/internal/pkg/log"
+	"miniblog/pkg/version"
+
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
-	"miniblog/cmd/mb-apiserver/app/options"
-	"miniblog/pkg/log"
-	"miniblog/pkg/version"
 )
 
 var configFile string

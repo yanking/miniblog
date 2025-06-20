@@ -2,13 +2,12 @@
 package options
 
 import (
+	"miniblog/internal/pkg/log"
 	"net/http"
 	"net/http/pprof"
 
 	"github.com/gorilla/mux"
 	"github.com/spf13/pflag"
-
-	"miniblog/pkg/log"
 )
 
 var _ IOptions = (*HealthOptions)(nil)

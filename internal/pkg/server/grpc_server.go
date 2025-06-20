@@ -2,7 +2,7 @@ package server
 
 import (
 	"context"
-	"miniblog/pkg/log"
+	"miniblog/internal/pkg/log"
 	"miniblog/pkg/options"
 	"net"
 
@@ -21,6 +21,7 @@ type GRPCServer struct {
 // NewGRPCServer 创建一个新的 GRPC 服务器实例.
 func NewGRPCServer(
 	grpcOptions *options.GRPCOptions,
+	serverOptions []grpc.ServerOption,
 	registerServer func(grpc.ServiceRegistrar),
 ) (*GRPCServer, error) {
 	lis, err := net.Listen("tcp", grpcOptions.Addr)
@@ -29,7 +30,7 @@ func NewGRPCServer(
 		return nil, err
 	}
 
-	grpcsrv := grpc.NewServer()
+	grpcsrv := grpc.NewServer(serverOptions...)
 
 	registerServer(grpcsrv)
 	registerHealthServer(grpcsrv)
