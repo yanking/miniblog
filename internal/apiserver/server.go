@@ -3,6 +3,7 @@ package apiserver
 import (
 	"context"
 	"miniblog/internal/apiserver/biz"
+	"miniblog/internal/apiserver/pkg/validation"
 	"miniblog/internal/apiserver/store"
 	"miniblog/internal/pkg/log"
 	"miniblog/internal/pkg/server"
@@ -56,6 +57,7 @@ type UnionServer struct {
 type ServerConfig struct {
 	cfg *Config
 	biz biz.IBiz
+	val *validation.Validator
 }
 
 // NewUnionServer 根据配置创建联合服务器.
@@ -127,6 +129,7 @@ func (cfg *Config) NewServerConfig() (*ServerConfig, error) {
 	return &ServerConfig{
 		cfg: cfg,
 		biz: biz.NewBiz(store),
+		val: validation.New(store),
 	}, nil
 }
 
