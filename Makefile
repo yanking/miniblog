@@ -74,6 +74,7 @@ protoc: # 编译 protobuf 文件.
 		--openapiv2_out=$(PROJ_ROOT_DIR)/api/openapi \
 		--openapiv2_opt=allow_delete_body=true,logtostderr=true \
 		$(shell find $(APIROOT) -name *.proto)
+	@find . -name "*.pb.go" -exec protoc-go-inject-tag -input={} \;
 
 tools:
 	@go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
@@ -82,3 +83,4 @@ tools:
 	@go install github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-openapiv2@latest
 	@go install github.com/air-verse/air@latest
 	@go install github.com/fullstorydev/grpcurl/cmd/grpcurl@latest
+	@go install github.com/favadi/protoc-go-inject-tag@latest

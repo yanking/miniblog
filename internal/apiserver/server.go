@@ -2,6 +2,8 @@ package apiserver
 
 import (
 	"context"
+	"miniblog/internal/apiserver/biz"
+	"miniblog/internal/apiserver/store"
 	"miniblog/internal/pkg/log"
 	"miniblog/internal/pkg/server"
 	"miniblog/pkg/options"
@@ -9,6 +11,8 @@ import (
 	"os/signal"
 	"syscall"
 	"time"
+
+	"gorm.io/gorm"
 )
 
 const (
@@ -26,11 +30,12 @@ const (
 // Config 配置结构体，用于存储应用相关的配置.
 // 不用 viper.Get，是因为这种方式能更加清晰的知道应用提供了哪些配置项.
 type Config struct {
-	ServerMode  string
-	JWTKey      string
-	Expiration  time.Duration
-	HTTPOptions *options.HTTPOptions
-	GRPCOptions *options.GRPCOptions
+	ServerMode   string
+	JWTKey       string
+	Expiration   time.Duration
+	HTTPOptions  *options.HTTPOptions
+	GRPCOptions  *options.GRPCOptions
+	MySQLOptions *options.MySQLOptions
 }
 
 // UnionServer 定义一个联合服务器. 根据 ServerMode 决定要启动的服务器类型.
@@ -50,6 +55,7 @@ type UnionServer struct {
 // ServerConfig 包含服务器的核心依赖和配置.
 type ServerConfig struct {
 	cfg *Config
+	biz biz.IBiz
 }
 
 // NewUnionServer 根据配置创建联合服务器.
@@ -111,5 +117,20 @@ func (s *UnionServer) Run() error {
 // NewServerConfig 创建一个 *ServerConfig 实例.
 // 进阶：这里其实可以使用依赖注入的方式，来创建 *ServerConfig.
 func (cfg *Config) NewServerConfig() (*ServerConfig, error) {
-	return &ServerConfig{cfg: cfg}, nil
+	// 初始化数据库连接
+	db, err := cfg.NewDB()
+	if err != nil {
+		return nil, err
+	}
+	store := store.NewStore(db)
+
+	return &ServerConfig{
+		cfg: cfg,
+		biz: biz.NewBiz(store),
+	}, nil
+}
+
+// NewDB 创建一个 *gorm.DB 实例.
+func (cfg *Config) NewDB() (*gorm.DB, error) {
+	return cfg.MySQLOptions.NewDB()
 }
