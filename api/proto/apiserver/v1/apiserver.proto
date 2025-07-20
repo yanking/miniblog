@@ -4,6 +4,8 @@ syntax = "proto3"; // 告诉编译器此文件使用什么版本的语法
 package apiserver.v1;
 
 import "apiserver/v1/healthz.proto"; // 健康检查消息定义
+// 定义当前服务所依赖的用户消息
+import "apiserver/v1/user.proto";
 // 提供用于定义 HTTP 映射的功能，比如通过 option (google.api.http) 实现 gRPC 到 HTTP 的映射
 import "google/api/annotations.proto";
 import "google/protobuf/empty.proto"; // 导入空消息
@@ -52,6 +54,111 @@ service MiniBlogService {
       operation_id: "Healthz"
       // 将该接口归类为“服务治理”
       tags: "服务治理"
+    };
+  }
+
+  // Login 用户登录
+  rpc Login(LoginRequest) returns (LoginResponse) {
+    option (google.api.http) = {
+      post: "/login"
+      body: "*"
+    };
+
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      summary: "用户登录"
+      operation_id: "Login"
+      description: ""
+      tags: "用户管理"
+    };
+  }
+
+  // RefreshToken 刷新令牌
+  rpc RefreshToken(RefreshTokenRequest) returns (RefreshTokenResponse) {
+    option (google.api.http) = {
+      put: "/refresh-token"
+      body: "*"
+    };
+
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      summary: "刷新令牌"
+      operation_id: "RefreshToken"
+      description: ""
+      tags: "用户管理"
+    };
+  }
+
+  // ChangePassword 修改密码
+  rpc ChangePassword(ChangePasswordRequest) returns (ChangePasswordResponse) {
+    option (google.api.http) = {
+      put: "/v1/users/{user_id}/change-password"
+      body: "*"
+    };
+
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      summary: "修改密码"
+      operation_id: "ChangePassword"
+      tags: "用户管理"
+    };
+  }
+
+  // CreateUser 创建用户
+  rpc CreateUser(CreateUserRequest) returns (CreateUserResponse) {
+    option (google.api.http) = {
+      post: "/v1/users"
+      body: "*"
+    };
+
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      summary: "创建用户"
+      operation_id: "CreateUser"
+      tags: "用户管理"
+    };
+  }
+
+  // UpdateUser 更新用户信息
+  rpc UpdateUser(UpdateUserRequest) returns (UpdateUserResponse) {
+    option (google.api.http) = {
+      put: "/v1/users/{user_id}"
+      body: "*"
+    };
+
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      summary: "更新用户信息"
+      operation_id: "UpdateUser"
+      tags: "用户管理"
+    };
+  }
+
+  // DeleteUser 删除用户
+  rpc DeleteUser(DeleteUserRequest) returns (DeleteUserResponse) {
+    option (google.api.http) = {delete: "/v1/users/{user_id}"};
+
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      summary: "删除用户"
+      operation_id: "DeleteUser"
+      tags: "用户管理"
+    };
+  }
+
+  // GetUser 获取用户信息
+  rpc GetUser(GetUserRequest) returns (GetUserResponse) {
+    option (google.api.http) = {get: "/v1/users/{user_id}"};
+
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      summary: "获取用户信息"
+      operation_id: "GetUser"
+      tags: "用户管理"
+    };
+  }
+
+  // ListUser 列出所有用户
+  rpc ListUser(ListUserRequest) returns (ListUserResponse) {
+    option (google.api.http) = {get: "/v1/users"};
+
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      summary: "列出所有用户"
+      operation_id: "ListUser"
+      tags: "用户管理"
     };
   }
 }

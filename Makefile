@@ -62,6 +62,7 @@ clean: # 清理构建产物、临时文件等.
 
 .PHONY: grpc
 protoc: # 生成gRPC相关文件
+	@echo "===========> Generate protobuf files"
 	@#buf dep update $(APIROOT)
 	@buf format -w $(APIROOT)
 	@buf lint $(APIROOT)

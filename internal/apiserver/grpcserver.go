@@ -43,7 +43,7 @@ func (c *ServerConfig) NewGRPCServerOr() (server.Server, error) {
 		c.cfg.GRPCOptions,
 		serverOptions,
 		func(s grpc.ServiceRegistrar) {
-			apiserverpb.RegisterMiniBlogServiceServer(s, handler.NewHandler())
+			apiserverpb.RegisterMiniBlogServiceServer(s, handler.NewHandler(c.biz))
 		},
 	)
 	if err != nil {

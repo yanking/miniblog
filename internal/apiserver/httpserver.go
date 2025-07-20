@@ -5,9 +5,10 @@ import (
 	"github.com/gin-contrib/pprof"
 	"github.com/gin-gonic/gin"
 	handler "github.com/yanking/miniblog/internal/apiserver/handler/http"
+	"github.com/yanking/miniblog/internal/pkg/errno"
 	"github.com/yanking/miniblog/internal/pkg/server"
+	"github.com/yanking/miniblog/pkg/core"
 	"github.com/yanking/miniblog/pkg/restserver/middlewares"
-	"net/http"
 )
 
 // ginServer 定义一个使用 Gin 框架开发的 HTTP 服务器.
@@ -40,10 +41,34 @@ func (c *ServerConfig) InstallRESTAPI(engine *gin.Engine) {
 	InstallGenericAPI(engine)
 
 	// 创建核心业务处理器
-	handler := handler.NewHandler()
+	handler := handler.NewHandler(c.biz)
 
 	// 注册健康检查接口
 	engine.GET("/healthz", handler.Healthz)
+
+	// 注册用户登录和令牌刷新接口。这2个接口比较简单，所以没有 API 版本
+	engine.POST("/login", handler.Login)
+	engine.PUT("/refresh-token", handler.RefreshToken)
+
+	authMiddlewares := []gin.HandlerFunc{}
+
+	// 注册 v1 版本 API 路由分组
+	v1 := engine.Group("/v1")
+	{
+		// 用户相关路由
+		userv1 := v1.Group("/users")
+		{
+			// 创建用户。这里要注意：创建用户是不用进行认证和授权的
+			userv1.POST("", handler.CreateUser)
+			userv1.Use(authMiddlewares...)
+			userv1.PUT(":userID/change-password", handler.ChangePassword) // 修改用户密码
+			userv1.PUT(":userID", handler.UpdateUser)                     // 更新用户信息
+			userv1.DELETE(":userID", handler.DeleteUser)                  // 删除用户
+			userv1.GET(":userID", handler.GetUser)                        // 查询用户详情
+			userv1.GET("", handler.ListUser)                              // 查询用户列表.
+		}
+
+	}
 }
 
 // InstallGenericAPI 注册业务无关的路由，例如 pprof、404 处理等.
@@ -53,7 +78,7 @@ func InstallGenericAPI(engine *gin.Engine) {
 
 	// 注册 404 路由处理
 	engine.NoRoute(func(c *gin.Context) {
-		c.JSON(http.StatusNotFound, "Page not found.")
+		core.WriteResponse(c, errno.ErrPageNotFound, nil)
 	})
 }
 

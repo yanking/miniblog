@@ -29,27 +29,82 @@ var File_apiserver_v1_apiserver_proto protoreflect.FileDescriptor
 
 const file_apiserver_v1_apiserver_proto_rawDesc = "" +
 	"\n" +
-	"\x1capiserver/v1/apiserver.proto\x12\fapiserver.v1\x1a\x1aapiserver/v1/healthz.proto\x1a\x1cgoogle/api/annotations.proto\x1a\x1bgoogle/protobuf/empty.proto\x1a.protoc-gen-openapiv2/options/annotations.proto2\x94\x01\n" +
+	"\x1capiserver/v1/apiserver.proto\x12\fapiserver.v1\x1a\x1aapiserver/v1/healthz.proto\x1a\x17apiserver/v1/user.proto\x1a\x1cgoogle/api/annotations.proto\x1a\x1bgoogle/protobuf/empty.proto\x1a.protoc-gen-openapiv2/options/annotations.proto2\xde\n" +
+	"\n" +
 	"\x0fMiniBlogService\x12\x80\x01\n" +
 	"\aHealthz\x12\x16.google.protobuf.Empty\x1a\x1d.apiserver.v1.HealthzResponse\">\x92A+\n" +
 	"\f服务治理\x12\x12服务健康检查*\aHealthz\x82\xd3\xe4\x93\x02\n" +
-	"\x12\b/healthzB\x99\x02\x92A\xe0\x01\x12\xb6\x01\n" +
+	"\x12\b/healthz\x12y\n" +
+	"\x05Login\x12\x1a.apiserver.v1.LoginRequest\x1a\x1b.apiserver.v1.LoginResponse\"7\x92A#\n" +
+	"\f用户管理\x12\f用户登录*\x05Login\x82\xd3\xe4\x93\x02\v:\x01*\"\x06/login\x12\x9d\x01\n" +
+	"\fRefreshToken\x12!.apiserver.v1.RefreshTokenRequest\x1a\".apiserver.v1.RefreshTokenResponse\"F\x92A*\n" +
+	"\f用户管理\x12\f刷新令牌*\fRefreshToken\x82\xd3\xe4\x93\x02\x13:\x01*\x1a\x0e/refresh-token\x12\xba\x01\n" +
+	"\x0eChangePassword\x12#.apiserver.v1.ChangePasswordRequest\x1a$.apiserver.v1.ChangePasswordResponse\"]\x92A,\n" +
+	"\f用户管理\x12\f修改密码*\x0eChangePassword\x82\xd3\xe4\x93\x02(:\x01*\x1a#/v1/users/{user_id}/change-password\x12\x90\x01\n" +
+	"\n" +
+	"CreateUser\x12\x1f.apiserver.v1.CreateUserRequest\x1a .apiserver.v1.CreateUserResponse\"?\x92A(\n" +
+	"\f用户管理\x12\f创建用户*\n" +
+	"CreateUser\x82\xd3\xe4\x93\x02\x0e:\x01*\"\t/v1/users\x12\xa0\x01\n" +
+	"\n" +
+	"UpdateUser\x12\x1f.apiserver.v1.UpdateUserRequest\x1a .apiserver.v1.UpdateUserResponse\"O\x92A.\n" +
+	"\f用户管理\x12\x12更新用户信息*\n" +
+	"UpdateUser\x82\xd3\xe4\x93\x02\x18:\x01*\x1a\x13/v1/users/{user_id}\x12\x97\x01\n" +
+	"\n" +
+	"DeleteUser\x12\x1f.apiserver.v1.DeleteUserRequest\x1a .apiserver.v1.DeleteUserResponse\"F\x92A(\n" +
+	"\f用户管理\x12\f删除用户*\n" +
+	"DeleteUser\x82\xd3\xe4\x93\x02\x15*\x13/v1/users/{user_id}\x12\x91\x01\n" +
+	"\aGetUser\x12\x1c.apiserver.v1.GetUserRequest\x1a\x1d.apiserver.v1.GetUserResponse\"I\x92A+\n" +
+	"\f用户管理\x12\x12获取用户信息*\aGetUser\x82\xd3\xe4\x93\x02\x15\x12\x13/v1/users/{user_id}\x12\x8b\x01\n" +
+	"\bListUser\x12\x1d.apiserver.v1.ListUserRequest\x1a\x1e.apiserver.v1.ListUserResponse\"@\x92A,\n" +
+	"\f用户管理\x12\x12列出所有用户*\bListUser\x82\xd3\xe4\x93\x02\v\x12\t/v1/usersB\x99\x02\x92A\xe0\x01\x12\xb6\x01\n" +
 	"\fminiblog API\"W\n" +
 	"\x18小而美的博客项目\x12%https://github.com/onexstack/miniblog\x1a\x14colin404@foxmail.com*H\n" +
 	"\vMIT License\x129https://github.com/onexstack/miniblog/blob/master/LICENSE2\x031.0*\x01\x022\x10application/json:\x10application/jsonZ3github.com/yanking/miniblog/api/gen/apiserver/v1;v1b\x06proto3"
 
 var file_apiserver_v1_apiserver_proto_goTypes = []any{
-	(*emptypb.Empty)(nil),   // 0: google.protobuf.Empty
-	(*HealthzResponse)(nil), // 1: apiserver.v1.HealthzResponse
+	(*emptypb.Empty)(nil),          // 0: google.protobuf.Empty
+	(*LoginRequest)(nil),           // 1: apiserver.v1.LoginRequest
+	(*RefreshTokenRequest)(nil),    // 2: apiserver.v1.RefreshTokenRequest
+	(*ChangePasswordRequest)(nil),  // 3: apiserver.v1.ChangePasswordRequest
+	(*CreateUserRequest)(nil),      // 4: apiserver.v1.CreateUserRequest
+	(*UpdateUserRequest)(nil),      // 5: apiserver.v1.UpdateUserRequest
+	(*DeleteUserRequest)(nil),      // 6: apiserver.v1.DeleteUserRequest
+	(*GetUserRequest)(nil),         // 7: apiserver.v1.GetUserRequest
+	(*ListUserRequest)(nil),        // 8: apiserver.v1.ListUserRequest
+	(*HealthzResponse)(nil),        // 9: apiserver.v1.HealthzResponse
+	(*LoginResponse)(nil),          // 10: apiserver.v1.LoginResponse
+	(*RefreshTokenResponse)(nil),   // 11: apiserver.v1.RefreshTokenResponse
+	(*ChangePasswordResponse)(nil), // 12: apiserver.v1.ChangePasswordResponse
+	(*CreateUserResponse)(nil),     // 13: apiserver.v1.CreateUserResponse
+	(*UpdateUserResponse)(nil),     // 14: apiserver.v1.UpdateUserResponse
+	(*DeleteUserResponse)(nil),     // 15: apiserver.v1.DeleteUserResponse
+	(*GetUserResponse)(nil),        // 16: apiserver.v1.GetUserResponse
+	(*ListUserResponse)(nil),       // 17: apiserver.v1.ListUserResponse
 }
 var file_apiserver_v1_apiserver_proto_depIdxs = []int32{
-	0, // 0: apiserver.v1.MiniBlogService.Healthz:input_type -> google.protobuf.Empty
-	1, // 1: apiserver.v1.MiniBlogService.Healthz:output_type -> apiserver.v1.HealthzResponse
-	1, // [1:2] is the sub-list for method output_type
-	0, // [0:1] is the sub-list for method input_type
-	0, // [0:0] is the sub-list for extension type_name
-	0, // [0:0] is the sub-list for extension extendee
-	0, // [0:0] is the sub-list for field type_name
+	0,  // 0: apiserver.v1.MiniBlogService.Healthz:input_type -> google.protobuf.Empty
+	1,  // 1: apiserver.v1.MiniBlogService.Login:input_type -> apiserver.v1.LoginRequest
+	2,  // 2: apiserver.v1.MiniBlogService.RefreshToken:input_type -> apiserver.v1.RefreshTokenRequest
+	3,  // 3: apiserver.v1.MiniBlogService.ChangePassword:input_type -> apiserver.v1.ChangePasswordRequest
+	4,  // 4: apiserver.v1.MiniBlogService.CreateUser:input_type -> apiserver.v1.CreateUserRequest
+	5,  // 5: apiserver.v1.MiniBlogService.UpdateUser:input_type -> apiserver.v1.UpdateUserRequest
+	6,  // 6: apiserver.v1.MiniBlogService.DeleteUser:input_type -> apiserver.v1.DeleteUserRequest
+	7,  // 7: apiserver.v1.MiniBlogService.GetUser:input_type -> apiserver.v1.GetUserRequest
+	8,  // 8: apiserver.v1.MiniBlogService.ListUser:input_type -> apiserver.v1.ListUserRequest
+	9,  // 9: apiserver.v1.MiniBlogService.Healthz:output_type -> apiserver.v1.HealthzResponse
+	10, // 10: apiserver.v1.MiniBlogService.Login:output_type -> apiserver.v1.LoginResponse
+	11, // 11: apiserver.v1.MiniBlogService.RefreshToken:output_type -> apiserver.v1.RefreshTokenResponse
+	12, // 12: apiserver.v1.MiniBlogService.ChangePassword:output_type -> apiserver.v1.ChangePasswordResponse
+	13, // 13: apiserver.v1.MiniBlogService.CreateUser:output_type -> apiserver.v1.CreateUserResponse
+	14, // 14: apiserver.v1.MiniBlogService.UpdateUser:output_type -> apiserver.v1.UpdateUserResponse
+	15, // 15: apiserver.v1.MiniBlogService.DeleteUser:output_type -> apiserver.v1.DeleteUserResponse
+	16, // 16: apiserver.v1.MiniBlogService.GetUser:output_type -> apiserver.v1.GetUserResponse
+	17, // 17: apiserver.v1.MiniBlogService.ListUser:output_type -> apiserver.v1.ListUserResponse
+	9,  // [9:18] is the sub-list for method output_type
+	0,  // [0:9] is the sub-list for method input_type
+	0,  // [0:0] is the sub-list for extension type_name
+	0,  // [0:0] is the sub-list for extension extendee
+	0,  // [0:0] is the sub-list for field type_name
 }
 
 func init() { file_apiserver_v1_apiserver_proto_init() }
@@ -58,6 +113,7 @@ func file_apiserver_v1_apiserver_proto_init() {
 		return
 	}
 	file_apiserver_v1_healthz_proto_init()
+	file_apiserver_v1_user_proto_init()
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
