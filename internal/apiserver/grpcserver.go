@@ -2,7 +2,9 @@ package apiserver
 
 import (
 	"context"
-	apiserverpb "github.com/yanking/miniblog/api/proto/gen/apiserver/v1"
+	"github.com/grpc-ecosystem/go-grpc-middleware/v2/interceptors"
+	"github.com/grpc-ecosystem/go-grpc-middleware/v2/interceptors/selector"
+	apiserverv1 "github.com/yanking/miniblog/api/proto/gen/apiserver/v1"
 	handler "github.com/yanking/miniblog/internal/apiserver/handler/grpc"
 	"github.com/yanking/miniblog/internal/pkg/server"
 	"github.com/yanking/miniblog/pkg/rpcserver/serverinterceptors"
@@ -35,6 +37,8 @@ func (c *ServerConfig) NewGRPCServerOr() (server.Server, error) {
 		grpc.ChainUnaryInterceptor(
 			// 请求 ID 拦截器
 			serverinterceptors.RequestIDInterceptor(),
+			// 认证拦截器
+			selector.UnaryServerInterceptor(serverinterceptors.AuthnInterceptor(c.retriever), NewAuthnWhiteListMatcher()),
 		),
 	}
 
@@ -43,7 +47,7 @@ func (c *ServerConfig) NewGRPCServerOr() (server.Server, error) {
 		c.cfg.GRPCOptions,
 		serverOptions,
 		func(s grpc.ServiceRegistrar) {
-			apiserverpb.RegisterMiniBlogServiceServer(s, handler.NewHandler(c.biz))
+			apiserverv1.RegisterMiniBlogServiceServer(s, handler.NewHandler(c.biz))
 		},
 	)
 	if err != nil {
@@ -66,7 +70,7 @@ func (c *ServerConfig) NewGRPCServerOr() (server.Server, error) {
 		c.cfg.HTTPOptions,
 		c.cfg.GRPCOptions,
 		func(mux *runtime.ServeMux, conn *grpc.ClientConn) error {
-			return apiserverpb.RegisterMiniBlogServiceHandler(context.Background(), mux, conn)
+			return apiserverv1.RegisterMiniBlogServiceHandler(context.Background(), mux, conn)
 		},
 	)
 	if err != nil {
@@ -90,4 +94,17 @@ func (s *grpcServer) RunOrDie() {
 // GracefulStop 优雅停止 HTTP 和 gRPC 服务器.
 func (s *grpcServer) GracefulStop(ctx context.Context) {
 	s.stop(ctx)
+}
+
+// NewAuthnWhiteListMatcher 创建认证白名单匹配器.
+func NewAuthnWhiteListMatcher() selector.Matcher {
+	whitelist := map[string]struct{}{
+		apiserverv1.MiniBlogService_Healthz_FullMethodName:    {},
+		apiserverv1.MiniBlogService_CreateUser_FullMethodName: {},
+		apiserverv1.MiniBlogService_Login_FullMethodName:      {},
+	}
+	return selector.MatchFunc(func(ctx context.Context, call interceptors.CallMeta) bool {
+		_, ok := whitelist[call.FullMethod()]
+		return !ok
+	})
 }
