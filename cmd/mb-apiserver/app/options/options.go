@@ -3,6 +3,7 @@ package options
 import (
 	"errors"
 	"fmt"
+	"github.com/yanking/miniblog/internal/apiserver"
 	"time"
 
 	"github.com/spf13/pflag"
@@ -62,4 +63,13 @@ func (o *ServerOptions) Validate() error {
 
 	// 合并所有错误并返回
 	return utilerrors.NewAggregate(errs)
+}
+
+// Config 基于 ServerOptions 构建 apiserver.Config.
+func (o *ServerOptions) Config() (*apiserver.Config, error) {
+	return &apiserver.Config{
+		ServerMode: o.ServerMode,
+		JWTKey:     o.JWTKey,
+		Expiration: o.Expiration,
+	}, nil
 }
