@@ -5,6 +5,7 @@ import (
 	apiserverpb "github.com/yanking/miniblog/api/proto/gen/apiserver/v1"
 	handler "github.com/yanking/miniblog/internal/apiserver/handler/grpc"
 	"github.com/yanking/miniblog/internal/pkg/server"
+	"github.com/yanking/miniblog/pkg/rpcserver/serverinterceptors"
 
 	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
 	"google.golang.org/grpc"
@@ -28,9 +29,19 @@ var _ server.Server = (*grpcServer)(nil)
 //  2. 处理默认值或回退逻辑
 //  3. 表达灵活选项
 func (c *ServerConfig) NewGRPCServerOr() (server.Server, error) {
+	// 配置 gRPC 服务器选项，包括拦截器链
+	serverOptions := []grpc.ServerOption{
+		// 注意拦截器顺序！
+		grpc.ChainUnaryInterceptor(
+			// 请求 ID 拦截器
+			serverinterceptors.RequestIDInterceptor(),
+		),
+	}
+
 	// 创建 gRPC 服务器
 	grpcsrv, err := server.NewGRPCServer(
 		c.cfg.GRPCOptions,
+		serverOptions,
 		func(s grpc.ServiceRegistrar) {
 			apiserverpb.RegisterMiniBlogServiceServer(s, handler.NewHandler())
 		},
