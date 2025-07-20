@@ -7,6 +7,9 @@ PROJ_ROOT_DIR := $(abspath $(shell cd $(COMMON_SELF_DIR)/ && pwd -P))
 # 构建产物、临时文件存放目录
 OUTPUT_DIR := $(PROJ_ROOT_DIR)/_output
 
+# Protobuf 文件存放路径
+APIROOT=$(PROJ_ROOT_DIR)/api/proto
+
 # ==============================================================================
 # 定义版本相关变量
 
@@ -56,6 +59,12 @@ tidy: # 自动添加/移除依赖包.
 .PHONY: clean
 clean: # 清理构建产物、临时文件等.
 	@-rm -vrf $(OUTPUT_DIR)
+
+.PHONY: grpc
+protoc: # 生成gRPC相关文件
+	@buf format -w $(APIROOT)
+	@buf lint $(APIROOT)
+	@buf generate $(APIROOT)
 
 .PHONY: tools
 tools: # 安装工具依赖包.
