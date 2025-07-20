@@ -1,7 +1,15 @@
+server-mode: grpc-gateway
+jwt-key:
+expiration:
+
 # HTTP 服务器相关配置
 http:
   # HTTP 服务器监听地址
   addr: :5555
+
+# gRPC 服务器相关配置
+grpc:
+  addr: :6666
 
 # 日志配置
 log:

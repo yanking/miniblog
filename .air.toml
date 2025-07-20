@@ -3,7 +3,7 @@ testdata_dir = "testdata"
 tmp_dir = "/tmp/air"
 
 [build]
-  args_bin = []
+  args_bin = ["-c","./configs/mb-apiserver.yaml"]
   bin = "./_output/mb-apiserver"
   cmd = "make build"
   delay = 1000
