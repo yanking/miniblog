@@ -6,7 +6,7 @@
 // 	protoc        (unknown)
 // source: apiserver/v1/apiserver.proto
 
-package apiserverpb
+package v1
 
 import (
 	_ "github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-openapiv2/options"
@@ -33,10 +33,10 @@ const file_apiserver_v1_apiserver_proto_rawDesc = "" +
 	"\x0fMiniBlogService\x12\x80\x01\n" +
 	"\aHealthz\x12\x16.google.protobuf.Empty\x1a\x1d.apiserver.v1.HealthzResponse\">\x92A+\n" +
 	"\f服务治理\x12\x12服务健康检查*\aHealthz\x82\xd3\xe4\x93\x02\n" +
-	"\x12\b/healthzB\xa2\x02\x92A\xe0\x01\x12\xb6\x01\n" +
+	"\x12\b/healthzB\x99\x02\x92A\xe0\x01\x12\xb6\x01\n" +
 	"\fminiblog API\"W\n" +
 	"\x18小而美的博客项目\x12%https://github.com/onexstack/miniblog\x1a\x14colin404@foxmail.com*H\n" +
-	"\vMIT License\x129https://github.com/onexstack/miniblog/blob/master/LICENSE2\x031.0*\x01\x022\x10application/json:\x10application/jsonZ<github.com/yanking/miniblog/api/gen/apiserver/v1;apiserverpbb\x06proto3"
+	"\vMIT License\x129https://github.com/onexstack/miniblog/blob/master/LICENSE2\x031.0*\x01\x022\x10application/json:\x10application/jsonZ3github.com/yanking/miniblog/api/gen/apiserver/v1;v1b\x06proto3"
 
 var file_apiserver_v1_apiserver_proto_goTypes = []any{
 	(*emptypb.Empty)(nil),   // 0: google.protobuf.Empty

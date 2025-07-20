@@ -6,7 +6,7 @@
 // - protoc             (unknown)
 // source: apiserver/v1/apiserver.proto
 
-package apiserverpb
+package v1
 
 import (
 	context "context"
