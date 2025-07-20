@@ -6,7 +6,7 @@
 // - protoc             (unknown)
 // source: apiserver/v1/apiserver.proto
 
-package apiserverv1
+package apiserverpb
 
 import (
 	context "context"
@@ -31,7 +31,6 @@ const (
 //
 // MiniBlog 定义了一个 MiniBlog RPC 服务
 type MiniBlogServiceClient interface {
-	// Healthz 健康检查
 	Healthz(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*HealthzResponse, error)
 }
 
@@ -59,7 +58,6 @@ func (c *miniBlogServiceClient) Healthz(ctx context.Context, in *emptypb.Empty, 
 //
 // MiniBlog 定义了一个 MiniBlog RPC 服务
 type MiniBlogServiceServer interface {
-	// Healthz 健康检查
 	Healthz(context.Context, *emptypb.Empty) (*HealthzResponse, error)
 }
 

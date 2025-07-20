@@ -12,7 +12,7 @@
 // 	protoc        (unknown)
 // source: apiserver/v1/healthz.proto
 
-package apiserverv1
+package apiserverpb
 
 import (
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
@@ -153,8 +153,7 @@ const file_apiserver_v1_healthz_proto_rawDesc = "" +
 	"\amessage\x18\x03 \x01(\tR\amessage*+\n" +
 	"\rServiceStatus\x12\v\n" +
 	"\aHEALTHY\x10\x00\x12\r\n" +
-	"\tUNHEALTHY\x10\x01B\xb5\x01\n" +
-	"\x10com.apiserver.v1B\fHealthzProtoP\x01ZBgithub.com/yanking/miniblog/api/proto/gen/apiserver/v1;apiserverv1\xa2\x02\x03AXX\xaa\x02\fApiserver.V1\xca\x02\fApiserver\\V1\xe2\x02\x18Apiserver\\V1\\GPBMetadata\xea\x02\rApiserver::V1b\x06proto3"
+	"\tUNHEALTHY\x10\x01B>Z<github.com/yanking/miniblog/api/gen/apiserver/v1;apiserverpbb\x06proto3"
 
 var (
 	file_apiserver_v1_healthz_proto_rawDescOnce sync.Once

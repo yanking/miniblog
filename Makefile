@@ -62,6 +62,7 @@ clean: # 清理构建产物、临时文件等.
 
 .PHONY: grpc
 protoc: # 生成gRPC相关文件
+	@#buf dep update $(APIROOT)
 	@buf format -w $(APIROOT)
 	@buf lint $(APIROOT)
 	@buf generate $(APIROOT)
@@ -69,3 +70,7 @@ protoc: # 生成gRPC相关文件
 .PHONY: tools
 tools: # 安装工具依赖包.
 	@go install github.com/air-verse/air@latest
+	@go install github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-grpc-gateway@latest
+	@go install github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-openapiv2@latest
+	@go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
+	@go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest

@@ -6,9 +6,11 @@
 // 	protoc        (unknown)
 // source: apiserver/v1/apiserver.proto
 
-package apiserverv1
+package apiserverpb
 
 import (
+	_ "github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-openapiv2/options"
+	_ "google.golang.org/genproto/googleapis/api/annotations"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	emptypb "google.golang.org/protobuf/types/known/emptypb"
@@ -27,10 +29,14 @@ var File_apiserver_v1_apiserver_proto protoreflect.FileDescriptor
 
 const file_apiserver_v1_apiserver_proto_rawDesc = "" +
 	"\n" +
-	"\x1capiserver/v1/apiserver.proto\x12\fapiserver.v1\x1a\x1aapiserver/v1/healthz.proto\x1a\x1bgoogle/protobuf/empty.proto2U\n" +
-	"\x0fMiniBlogService\x12B\n" +
-	"\aHealthz\x12\x16.google.protobuf.Empty\x1a\x1d.apiserver.v1.HealthzResponse\"\x00B\xb7\x01\n" +
-	"\x10com.apiserver.v1B\x0eApiserverProtoP\x01ZBgithub.com/yanking/miniblog/api/proto/gen/apiserver/v1;apiserverv1\xa2\x02\x03AXX\xaa\x02\fApiserver.V1\xca\x02\fApiserver\\V1\xe2\x02\x18Apiserver\\V1\\GPBMetadata\xea\x02\rApiserver::V1b\x06proto3"
+	"\x1capiserver/v1/apiserver.proto\x12\fapiserver.v1\x1a\x1aapiserver/v1/healthz.proto\x1a\x1cgoogle/api/annotations.proto\x1a\x1bgoogle/protobuf/empty.proto\x1a.protoc-gen-openapiv2/options/annotations.proto2\x94\x01\n" +
+	"\x0fMiniBlogService\x12\x80\x01\n" +
+	"\aHealthz\x12\x16.google.protobuf.Empty\x1a\x1d.apiserver.v1.HealthzResponse\">\x92A+\n" +
+	"\f服务治理\x12\x12服务健康检查*\aHealthz\x82\xd3\xe4\x93\x02\n" +
+	"\x12\b/healthzB\xa2\x02\x92A\xe0\x01\x12\xb6\x01\n" +
+	"\fminiblog API\"W\n" +
+	"\x18小而美的博客项目\x12%https://github.com/onexstack/miniblog\x1a\x14colin404@foxmail.com*H\n" +
+	"\vMIT License\x129https://github.com/onexstack/miniblog/blob/master/LICENSE2\x031.0*\x01\x022\x10application/json:\x10application/jsonZ<github.com/yanking/miniblog/api/gen/apiserver/v1;apiserverpbb\x06proto3"
 
 var file_apiserver_v1_apiserver_proto_goTypes = []any{
 	(*emptypb.Empty)(nil),   // 0: google.protobuf.Empty
