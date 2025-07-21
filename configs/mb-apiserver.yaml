@@ -9,7 +9,7 @@
 #   - 应用内调用选择 grpc
 #   - 如果有外部服务调用选择 grpc-gateway
 #   - 学习 Gin 框架时选择 gin
-server-mode: gin
+server-mode: grpc-gateway
 # JWT 签发密钥
 jwt-key: Rtg8BPKNEf2mB4mgvKONGPZZQSaJWNLijxR42qRgq0iBb5
 # JWT Token 过期时间
