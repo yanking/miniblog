@@ -4,8 +4,8 @@ tmp_dir = "/tmp/air"
 
 [build]
   args_bin = ["-c","./configs/mb-apiserver.yaml"]
-  bin = "./_output/mb-apiserver"
-  cmd = "make build"
+  bin = "./_output/platforms/linux/amd64/mb-apiserver"
+  cmd = "make build BINS=mb-apiserver"
   delay = 1000
   exclude_dir = ["assets", "tmp", "vendor", "testdata"]
   exclude_file = []

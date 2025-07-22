@@ -1,0 +1,407 @@
+consumes:
+    - application/json
+produces:
+    - application/json
+schemes:
+    - https
+swagger: "2.0"
+info:
+    contact:
+        email: colin404@foxmail.com
+        name: 小而美的博客项目
+        url: https://github.com/onexstack/miniblog
+    license:
+        name: MIT License
+        url: https://github.com/onexstack/miniblog/blob/master/LICENSE
+    title: miniblog API
+    version: "1.0"
+paths:
+    /healthz:
+        get:
+            operationId: Healthz
+            responses:
+                "200":
+                    description: A successful response.
+                    schema:
+                        $ref: '#/definitions/v1HealthzResponse'
+                default:
+                    description: An unexpected error response.
+                    schema:
+                        $ref: '#/definitions/rpcStatus'
+            summary: 服务健康检查
+            tags:
+                - 服务治理
+    /login:
+        post:
+            operationId: Login
+            parameters:
+                - in: body
+                  name: body
+                  required: true
+                  schema:
+                    $ref: '#/definitions/v1LoginRequest'
+            responses:
+                "200":
+                    description: A successful response.
+                    schema:
+                        $ref: '#/definitions/v1LoginResponse'
+                default:
+                    description: An unexpected error response.
+                    schema:
+                        $ref: '#/definitions/rpcStatus'
+            summary: 用户登录
+            tags:
+                - 用户管理
+    /refresh-token:
+        put:
+            operationId: RefreshToken
+            parameters:
+                - description: 该请求无需额外字段，仅通过现有的认证信息（如旧的 token）进行刷新
+                  in: body
+                  name: body
+                  required: true
+                  schema:
+                    $ref: '#/definitions/v1RefreshTokenRequest'
+            responses:
+                "200":
+                    description: A successful response.
+                    schema:
+                        $ref: '#/definitions/v1RefreshTokenResponse'
+                default:
+                    description: An unexpected error response.
+                    schema:
+                        $ref: '#/definitions/rpcStatus'
+            summary: 刷新令牌
+            tags:
+                - 用户管理
+    /v1/users:
+        get:
+            operationId: ListUser
+            parameters:
+                - description: offset 表示偏移量
+                  format: int64
+                  in: query
+                  name: offset
+                  type: string
+                - description: limit 表示每页数量
+                  format: int64
+                  in: query
+                  name: limit
+                  type: string
+            responses:
+                "200":
+                    description: A successful response.
+                    schema:
+                        $ref: '#/definitions/v1ListUserResponse'
+                default:
+                    description: An unexpected error response.
+                    schema:
+                        $ref: '#/definitions/rpcStatus'
+            summary: 列出所有用户
+            tags:
+                - 用户管理
+        post:
+            operationId: CreateUser
+            parameters:
+                - in: body
+                  name: body
+                  required: true
+                  schema:
+                    $ref: '#/definitions/v1CreateUserRequest'
+            responses:
+                "200":
+                    description: A successful response.
+                    schema:
+                        $ref: '#/definitions/v1CreateUserResponse'
+                default:
+                    description: An unexpected error response.
+                    schema:
+                        $ref: '#/definitions/rpcStatus'
+            summary: 创建用户
+            tags:
+                - 用户管理
+    /v1/users/{userId}:
+        delete:
+            operationId: DeleteUser
+            parameters:
+                - in: path
+                  name: userId
+                  required: true
+                  type: string
+            responses:
+                "200":
+                    description: A successful response.
+                    schema:
+                        $ref: '#/definitions/v1DeleteUserResponse'
+                default:
+                    description: An unexpected error response.
+                    schema:
+                        $ref: '#/definitions/rpcStatus'
+            summary: 删除用户
+            tags:
+                - 用户管理
+        get:
+            operationId: GetUser
+            parameters:
+                - description: userID 表示用户 ID
+                  in: path
+                  name: userId
+                  required: true
+                  type: string
+            responses:
+                "200":
+                    description: A successful response.
+                    schema:
+                        $ref: '#/definitions/v1GetUserResponse'
+                default:
+                    description: An unexpected error response.
+                    schema:
+                        $ref: '#/definitions/rpcStatus'
+            summary: 获取用户信息
+            tags:
+                - 用户管理
+        put:
+            operationId: UpdateUser
+            parameters:
+                - description: userID 表示用户 ID
+                  in: path
+                  name: userId
+                  required: true
+                  type: string
+                - in: body
+                  name: body
+                  required: true
+                  schema:
+                    $ref: '#/definitions/MiniBlogServiceUpdateUserBody'
+            responses:
+                "200":
+                    description: A successful response.
+                    schema:
+                        $ref: '#/definitions/v1UpdateUserResponse'
+                default:
+                    description: An unexpected error response.
+                    schema:
+                        $ref: '#/definitions/rpcStatus'
+            summary: 更新用户信息
+            tags:
+                - 用户管理
+    /v1/users/{userId}/change-password:
+        put:
+            operationId: ChangePassword
+            parameters:
+                - description: userID 表示用户 ID
+                  in: path
+                  name: userId
+                  required: true
+                  type: string
+                - in: body
+                  name: body
+                  required: true
+                  schema:
+                    $ref: '#/definitions/MiniBlogServiceChangePasswordBody'
+            responses:
+                "200":
+                    description: A successful response.
+                    schema:
+                        $ref: '#/definitions/v1ChangePasswordResponse'
+                default:
+                    description: An unexpected error response.
+                    schema:
+                        $ref: '#/definitions/rpcStatus'
+            summary: 修改密码
+            tags:
+                - 用户管理
+definitions:
+    MiniBlogServiceChangePasswordBody:
+        properties:
+            newPassword:
+                title: newPassword 表示准备修改的新密码
+                type: string
+            oldPassword:
+                title: oldPassword 表示当前密码
+                type: string
+        title: ChangePasswordRequest 表示修改密码请求
+        type: object
+    MiniBlogServiceUpdateUserBody:
+        properties:
+            email:
+                title: email 表示可选的用户电子邮箱
+                type: string
+            nickname:
+                title: nickname 表示可选的用户昵称
+                type: string
+            phone:
+                title: phone 表示可选的用户手机号
+                type: string
+            username:
+                title: username 表示可选的用户名称
+                type: string
+        title: UpdateUserRequest 表示更新用户请求
+        type: object
+    protobufAny:
+        additionalProperties: {}
+        properties:
+            '@type':
+                type: string
+        type: object
+    rpcStatus:
+        properties:
+            code:
+                format: int32
+                type: integer
+            details:
+                items:
+                    $ref: '#/definitions/protobufAny'
+                    type: object
+                type: array
+            message:
+                type: string
+        type: object
+    v1ChangePasswordResponse:
+        title: ChangePasswordResponse 表示修改密码响应
+        type: object
+    v1CreateUserRequest:
+        properties:
+            email:
+                title: email 表示用户电子邮箱
+                type: string
+            nickname:
+                title: nickname 表示用户昵称
+                type: string
+            password:
+                title: password 表示用户密码
+                type: string
+            phone:
+                title: phone 表示用户手机号
+                type: string
+            username:
+                title: username 表示用户名称
+                type: string
+        title: CreateUserRequest 表示创建用户请求
+        type: object
+    v1CreateUserResponse:
+        properties:
+            userId:
+                title: userID 表示新创建的用户 ID
+                type: string
+        title: CreateUserResponse 表示创建用户响应
+        type: object
+    v1DeleteUserResponse:
+        title: DeleteUserResponse 表示删除用户响应
+        type: object
+    v1GetUserResponse:
+        properties:
+            user:
+                $ref: '#/definitions/v1User'
+                title: user 表示返回的用户信息
+        title: GetUserResponse 表示获取用户响应
+        type: object
+    v1HealthzResponse:
+        properties:
+            message:
+                title: message 表示可选的状态消息，描述服务健康的更多信息
+                type: string
+            status:
+                $ref: '#/definitions/v1ServiceStatus'
+                title: status 表示服务的健康状态
+            timestamp:
+                title: timestamp 表示请求的时间戳
+                type: string
+        title: HealthzResponse 表示健康检查的响应结构体
+        type: object
+    v1ListUserResponse:
+        properties:
+            totalCount:
+                format: int64
+                title: totalCount 表示总用户数
+                type: string
+            users:
+                items:
+                    $ref: '#/definitions/v1User'
+                    type: object
+                title: users 表示用户列表
+                type: array
+        title: ListUserResponse 表示用户列表响应
+        type: object
+    v1LoginRequest:
+        properties:
+            password:
+                title: password 表示用户密码
+                type: string
+            username:
+                title: username 表示用户名称
+                type: string
+        title: LoginRequest 表示登录请求
+        type: object
+    v1LoginResponse:
+        properties:
+            expireAt:
+                format: date-time
+                title: expireAt 表示该 token 的过期时间
+                type: string
+            token:
+                title: token 表示返回的身份验证令牌
+                type: string
+        title: LoginResponse 表示登录响应
+        type: object
+    v1RefreshTokenRequest:
+        description: 该请求无需额外字段，仅通过现有的认证信息（如旧的 token）进行刷新
+        title: RefreshTokenRequest 表示刷新令牌的请求
+        type: object
+    v1RefreshTokenResponse:
+        properties:
+            expireAt:
+                format: date-time
+                title: expireAt 表示该 token 的过期时间
+                type: string
+            token:
+                title: token 表示返回的身份验证令牌
+                type: string
+        title: RefreshTokenResponse 表示刷新令牌的响应
+        type: object
+    v1ServiceStatus:
+        default: HEALTHY
+        description: |-
+            - HEALTHY: Healthy 表示服务健康
+             - UNHEALTHY: Unhealthy 表示服务不健康
+        enum:
+            - HEALTHY
+            - UNHEALTHY
+        title: ServiceStatus 表示服务的健康状态
+        type: string
+    v1UpdateUserResponse:
+        title: UpdateUserResponse 表示更新用户响应
+        type: object
+    v1User:
+        properties:
+            createdAt:
+                format: date-time
+                title: createdAt 表示用户注册时间
+                type: string
+            email:
+                title: email 表示用户电子邮箱
+                type: string
+            nickname:
+                title: nickname 表示用户昵称
+                type: string
+            phone:
+                title: phone 表示用户手机号
+                type: string
+            postCount:
+                format: int64
+                title: postCount 表示用户拥有的博客数量
+                type: string
+            updatedAt:
+                format: date-time
+                title: updatedAt 表示用户最后更新时间
+                type: string
+            userId:
+                title: userID 表示用户 ID
+                type: string
+            username:
+                title: username 表示用户名称
+                type: string
+        title: User 表示用户信息
+        type: object
+tags:
+    - name: MiniBlogService
