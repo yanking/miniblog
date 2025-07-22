@@ -41,9 +41,11 @@ go.build.%: ## 编译 Go 源码.
 	$(eval ARCH := $(word 2,$(subst _, ,$(PLATFORM))))
 	@echo "===========> Building binary $(COMMAND) $(VERSION) for $(OS) $(ARCH)"
 	@mkdir -p $(OUTPUT_DIR)/platforms/$(OS)/$(ARCH)
-	@CGO_ENABLED=1 GOOS=$(OS) GOARCH=$(ARCH) $(GO) build $(GO_BUILD_FLAGS) \
+	@CGO_ENABLED=0 GOOS=$(OS) GOARCH=$(ARCH) $(GO) build $(GO_BUILD_FLAGS) \
 		-o $(OUTPUT_DIR)/platforms/$(OS)/$(ARCH)/$(COMMAND)$(GO_OUT_EXT) \
 		$(ROOT_PACKAGE)/cmd/$(COMMAND)
+	@rm -rf $(OUTPUT_DIR)/$(COMMAND)$(GO_OUT_EXT)
+	@cp $(OUTPUT_DIR)/platforms/$(OS)/$(ARCH)/$(COMMAND)$(GO_OUT_EXT) $(OUTPUT_DIR)/$(COMMAND)$(GO_OUT_EXT)  # 复制到顶层目录
 
 .PHONY: go.build
 go.build: go.build.verify $(addprefix go.build., $(addprefix $(PLATFORM)., $(BINS))) # 根据指定的平台编译源码.

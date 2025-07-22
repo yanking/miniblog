@@ -13,8 +13,8 @@ info:
     license:
         name: MIT License
         url: https://github.com/onexstack/miniblog/blob/master/LICENSE
-    title: miniblog API
-    version: "1.0"
+    title: apiserver/v1/healthz.proto
+    version: version not set
 paths:
     /healthz:
         get:
@@ -217,9 +217,11 @@ definitions:
             newPassword:
                 title: newPassword 表示准备修改的新密码
                 type: string
+                x-order: !!float 1
             oldPassword:
                 title: oldPassword 表示当前密码
                 type: string
+                x-order: !!float 0
         title: ChangePasswordRequest 表示修改密码请求
         type: object
     MiniBlogServiceUpdateUserBody:
@@ -227,15 +229,19 @@ definitions:
             email:
                 title: email 表示可选的用户电子邮箱
                 type: string
+                x-order: !!float 2
             nickname:
                 title: nickname 表示可选的用户昵称
                 type: string
+                x-order: !!float 1
             phone:
                 title: phone 表示可选的用户手机号
                 type: string
+                x-order: !!float 3
             username:
                 title: username 表示可选的用户名称
                 type: string
+                x-order: !!float 0
         title: UpdateUserRequest 表示更新用户请求
         type: object
     protobufAny:
@@ -265,18 +271,23 @@ definitions:
             email:
                 title: email 表示用户电子邮箱
                 type: string
+                x-order: !!float 3
             nickname:
                 title: nickname 表示用户昵称
                 type: string
+                x-order: !!float 2
             password:
                 title: password 表示用户密码
                 type: string
+                x-order: !!float 1
             phone:
                 title: phone 表示用户手机号
                 type: string
+                x-order: !!float 4
             username:
                 title: username 表示用户名称
                 type: string
+                x-order: !!float 0
         title: CreateUserRequest 表示创建用户请求
         type: object
     v1CreateUserResponse:
@@ -284,6 +295,7 @@ definitions:
             userId:
                 title: userID 表示新创建的用户 ID
                 type: string
+                x-order: !!float 0
         title: CreateUserResponse 表示创建用户响应
         type: object
     v1DeleteUserResponse:
@@ -294,6 +306,7 @@ definitions:
             user:
                 $ref: '#/definitions/v1User'
                 title: user 表示返回的用户信息
+                x-order: !!float 0
         title: GetUserResponse 表示获取用户响应
         type: object
     v1HealthzResponse:
@@ -301,12 +314,15 @@ definitions:
             message:
                 title: message 表示可选的状态消息，描述服务健康的更多信息
                 type: string
+                x-order: !!float 2
             status:
                 $ref: '#/definitions/v1ServiceStatus'
                 title: status 表示服务的健康状态
+                x-order: !!float 0
             timestamp:
                 title: timestamp 表示请求的时间戳
                 type: string
+                x-order: !!float 1
         title: HealthzResponse 表示健康检查的响应结构体
         type: object
     v1ListUserResponse:
@@ -315,12 +331,14 @@ definitions:
                 format: int64
                 title: totalCount 表示总用户数
                 type: string
+                x-order: !!float 0
             users:
                 items:
                     $ref: '#/definitions/v1User'
                     type: object
                 title: users 表示用户列表
                 type: array
+                x-order: !!float 1
         title: ListUserResponse 表示用户列表响应
         type: object
     v1LoginRequest:
@@ -328,9 +346,11 @@ definitions:
             password:
                 title: password 表示用户密码
                 type: string
+                x-order: !!float 1
             username:
                 title: username 表示用户名称
                 type: string
+                x-order: !!float 0
         title: LoginRequest 表示登录请求
         type: object
     v1LoginResponse:
@@ -339,9 +359,11 @@ definitions:
                 format: date-time
                 title: expireAt 表示该 token 的过期时间
                 type: string
+                x-order: !!float 1
             token:
                 title: token 表示返回的身份验证令牌
                 type: string
+                x-order: !!float 0
         title: LoginResponse 表示登录响应
         type: object
     v1RefreshTokenRequest:
@@ -354,9 +376,11 @@ definitions:
                 format: date-time
                 title: expireAt 表示该 token 的过期时间
                 type: string
+                x-order: !!float 1
             token:
                 title: token 表示返回的身份验证令牌
                 type: string
+                x-order: !!float 0
         title: RefreshTokenResponse 表示刷新令牌的响应
         type: object
     v1ServiceStatus:
@@ -378,29 +402,37 @@ definitions:
                 format: date-time
                 title: createdAt 表示用户注册时间
                 type: string
+                x-order: !!float 6
             email:
                 title: email 表示用户电子邮箱
                 type: string
+                x-order: !!float 3
             nickname:
                 title: nickname 表示用户昵称
                 type: string
+                x-order: !!float 2
             phone:
                 title: phone 表示用户手机号
                 type: string
+                x-order: !!float 4
             postCount:
                 format: int64
                 title: postCount 表示用户拥有的博客数量
                 type: string
+                x-order: !!float 5
             updatedAt:
                 format: date-time
                 title: updatedAt 表示用户最后更新时间
                 type: string
+                x-order: !!float 7
             userId:
                 title: userID 表示用户 ID
                 type: string
+                x-order: !!float 0
             username:
                 title: username 表示用户名称
                 type: string
+                x-order: !!float 1
         title: User 表示用户信息
         type: object
 tags:

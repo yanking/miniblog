@@ -1,0 +1,65 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mb-apiserver # 资源名称
+  labels:
+    app: mb-apiserver # 资源标签
+spec:
+  replicas: 2 # 副本数
+  progressDeadlineSeconds: 10
+  revisionHistoryLimit: 5
+  selector:
+    matchLabels:
+      app: mb-apiserver
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
+  template:
+    metadata:
+      name: mb-apiserver
+      labels:
+        app: mb-apiserver
+    spec:
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - podAffinityTerm:
+                labelSelector:
+                  matchExpressions:
+                    - key: app
+                      operator: In
+                      values:
+                        - mb-apiserver
+                topologyKey: kubernetes.io/hostname
+              weight: 100
+      containers:
+        - name: mb-apiserver
+          image: "localhost:5000/miniblog-apiserver:latest"
+          imagePullPolicy: Always
+          command:
+            - /opt/miniblog/bin/mb-apiserver
+            - -c /opt/miniblog/configs/mb-apiserver.yaml
+          ports:
+            - containerPort: 5555
+              name: http
+              protocol: TCP
+            - containerPort: 6666
+              name: grpc
+              protocol: TCP
+          volumeMounts:
+            - mountPath: /opt/miniblog/configs/mb-apiserver.yaml
+              name: miniblog
+              subPath: mb-apiserver.yaml
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      volumes:
+        - configMap:
+            defaultMode: 420
+            items:
+              - key: mb-apiserver.yaml
+                path: mb-apiserver.yaml
+            name: mb-apiserver
+          name: miniblog
+      

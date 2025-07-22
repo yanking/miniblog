@@ -1,0 +1,8 @@
+# 日志文件
+*.log
+
+# 自定义文件
+/_output
+
+.idea
+.vscode

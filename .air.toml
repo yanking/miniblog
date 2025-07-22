@@ -4,7 +4,7 @@ tmp_dir = "/tmp/air"
 
 [build]
   args_bin = ["-c","./configs/mb-apiserver.yaml"]
-  bin = "./_output/platforms/linux/amd64/mb-apiserver"
+  bin = "./_output/mb-apiserver"
   cmd = "make build BINS=mb-apiserver"
   delay = 1000
   exclude_dir = ["assets", "tmp", "vendor", "testdata"]
@@ -21,7 +21,7 @@ tmp_dir = "/tmp/air"
   poll = false
   poll_interval = 0
   post_cmd = []
-  pre_cmd = []
+  pre_cmd = ["make protoc","make serve-swagger"]
   rerun = false
   rerun_delay = 500
   send_interrupt = false
